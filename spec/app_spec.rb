@@ -44,9 +44,32 @@ RSpec.describe App do
 
     it "should show the report from data" do
       get '/report'
-      expect(last_response.body).to include("Lista de todos as transações")
+      expect(last_response.body).to include('Lista de todas as transações')
     end
 
-    it "should show the amount sum"
+    context "showing all transactions" do
+
+      before(:example) { get '/report' }
+      
+      it "in a table" do
+        t1 = Transaction.create(transaction_type: 'Financiamento', transacted_at: DateTime.now, amount: rand(-100..100), cpf: '2232313', credit_card: '2343r32', store_owner: 'Joao', store_name: 'Nome da loja')
+        t2 = Transaction.create(transaction_type: 'Financiamento', transacted_at: DateTime.now, amount: rand(-100..100), cpf: '2232313', credit_card: '2343r32', store_owner: 'Joao', store_name: 'Nome da loja')
+        
+        get '/report'
+        expect(last_response.body).to include(t1.credit_card)
+        expect(last_response.body).to include(t2.credit_card)
+        expect(last_response.body).to include(t1.cpf)
+        expect(last_response.body).to include(t2.cpf)
+      end
+      
+      it "amount sum" do
+        t1 = Transaction.create(transaction_type: 'Financiamento', transacted_at: DateTime.now, amount: rand(-100..100), cpf: '2232313', credit_card: '2343r32', store_owner: 'Joao', store_name: 'Nome da loja')
+        t2 = Transaction.create(transaction_type: 'Financiamento', transacted_at: DateTime.now, amount: rand(-100..100), cpf: '2232313', credit_card: '2343r32', store_owner: 'Joao', store_name: 'Nome da loja')
+        t3 = Transaction.create(transaction_type: 'Financiamento', transacted_at: DateTime.now, amount: rand(-100..100), cpf: '2232313', credit_card: '2343r32', store_owner: 'Joao', store_name: 'Nome da loja')
+
+        get '/report'
+        expect(last_response.body).to include((t1.amount+t2.amount+t3.amount).to_s)
+      end
+    end
   end
 end

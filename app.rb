@@ -29,4 +29,9 @@ class App < Sinatra::Base
     end
     "Uploaded!"
   end
+
+  get '/report' do
+    @transactions = Transaction.all
+    erb :report
+  end
 end
