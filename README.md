@@ -74,3 +74,68 @@ Adicionalmente, tentaremos verificar a sua familiarização com as bibliotecas p
 ---
 
 Boa sorte!
+
+# Guia para rodar este projeto
+
+* O projeto foi desenvolvido usando Ruby 3.0, Sinatra e testado com RSpec e Rack::Test.
+* O banco de dados utilizado foi o SQLite.
+
+Essas foram as únicas tecnologias utilizadas nesse projeto.
+
+## Instalação
+
+Inicialmente deve-se instalar o Ruby 3.0 (a versão 2.7 também é compatível).
+
+
+* Para instalar o ruby e o sqlite no MacOS
+```
+brew install ruby sqlite
+```
+
+* Para instalar o ruby e o sqlite no Linux
+```
+sudo apt install ruby sqlite3
+```
+
+Com o ruby instalado, seguimos para instalar o bundle que gerenciará nossas dependências
+
+```
+$ gem install bundler
+```
+Com isso, podemos clonar o repositório para a máquina:
+
+```
+$ git clone https://github.com/weldyss/desafio-ruby-backend.git
+```
+
+Em seguida, entramos no diretório com `cd desafio-ruby-backend` instalamos as dependências:
+
+```
+$ bundle install
+```
+
+Geramos o banco de dados:
+
+```
+$ bundle exec rake db:create
+```
+
+Executamos a migration
+
+```
+$ bundle exec rake db:migration
+```
+
+E rodamos os testes
+
+```
+$ bundle exec rspec spec
+```
+
+ou se quisermos rodar no navegador, basta rodar o rackup
+
+```
+$ bundle exec rackup
+```
+
+E abrir no navegador no endereço `http://localhost:9292`
